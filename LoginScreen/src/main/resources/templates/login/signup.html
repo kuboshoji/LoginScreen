@@ -16,7 +16,7 @@
  </div>
  
  <!-- ポイント１：登録画面 -->
- <form method="post" action="/signup" th:object="${/signupForm}">
+ <form method="post" action="/signup" th:object="${signupForm}">
   <table class="table table-bordered table-hover">
   
   <!-- ユーザーIDの入力エリア -->
@@ -34,7 +34,7 @@
     <th class="active">パスワード</th>
     <td>
      <div class="form-group">
-      <input type="text" class="form-control" th:field="{password}"/>
+      <input type="text" class="form-control" th:field="*{password}"/>
      </div>
     </td>
    </tr>
@@ -85,7 +85,7 @@
    <!-- ポイント２：エラーメッセージの一覧表 -->
    <ul>
     <li th:each="error : ${#fields.detailedErrors()}">
-    	<span th:text="${error.message}">Errormessage</span>   
+    	<span th:text="${error.message}">Error message</span>   
     </li>	
    </ul>
    

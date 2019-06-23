@@ -10,11 +10,11 @@ import lombok.Data;
 public class SignupForm {
 	
 	private String userId;//ユーザーID
-	private String passwordString;//パスワード
+	private String password;//パスワード
 	private String userName;//ユーザー名
 	
 	@DateTimeFormat(pattern = "yyyy/MM/dd")
-	private Date birthdayDate;
+	private Date birthday;
 	private int age;
 	private boolean marriage;//結婚ステータス
 	
