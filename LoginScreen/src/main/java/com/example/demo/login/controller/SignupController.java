@@ -28,7 +28,7 @@ public class SignupController {
 }
 
 //ポイント１：@ModelAttribute
-//ユーザー登録画面のGET用コントローラー	
+//ユーザー登録画面のGET用コントローラー	@Validated指定の問題
 @GetMapping("/signup")
 public String getSignUp(@ModelAttribute SignupForm form,Model model){
 	
