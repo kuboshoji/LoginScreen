@@ -30,7 +30,7 @@ public class SignupController {
 //ポイント１：@ModelAttribute
 //ユーザー登録画面のGET用コントローラー	
 @GetMapping("/signup")
-public String getSignUp(@ModelAttribute @Validated SignupForm form,Model model){
+public String getSignUp(@ModelAttribute SignupForm form,Model model){
 	
 	//ラジオボタンの初期化メソッド呼び出し
 	radioMarriage = initRadioMarriage();
