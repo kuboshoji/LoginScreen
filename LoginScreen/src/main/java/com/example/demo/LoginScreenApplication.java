@@ -10,4 +10,4 @@ public class LoginScreenApplication {
 		SpringApplication.run(LoginScreenApplication.class, args);
 	}
 
-}
+}	
