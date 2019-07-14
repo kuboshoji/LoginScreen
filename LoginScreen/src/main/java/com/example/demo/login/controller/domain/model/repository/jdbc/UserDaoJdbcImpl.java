@@ -1,21 +1,22 @@
 package com.example.demo.login.controller.domain.model.repository.jdbc;
 
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
-
 import com.example.demo.login.controller.domain.model.User;
+import com.example.demo.login.controller.domain.model.repository.UserDao;
 
 @Repository
-public class UserDaojdbcImpl implements UserDao{
+public class UserDaoJdbcImpl implements UserDao{
 	
 	@Autowired
 	JdbcTemplate jdbc;
 	
 	//Userテーブルの件数を取得
 	@Override
-	public int count()throws DateAccessException{
+	public int count()throws DataAccessException{
 		return 0;
 	}
 	
@@ -28,12 +29,12 @@ public class UserDaojdbcImpl implements UserDao{
 	//Userテーブルのテーブルを1 件取得
 	@Override
 	public User selectOne(String userId)throws DataAccessException{
-		return unll;
+		return null;
 	}
 
 	//Userテーブルの全データを取得
 	@Override
-	pullic List<User>selectMany()throws DataAccessException{
+	public List<User>selectMany()throws DataAccessException{
 		return null;
 	}
 	
