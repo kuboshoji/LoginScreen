@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import com.example.demo.login.controller.domain.model.GroupOrder;
 import com.example.demo.login.controller.domain.model.SignupForm;
 
 @Controller

@@ -18,30 +18,30 @@ import lombok.Data;
 public class SignupForm {
 	
 	//メールアドレス形式
-	@NotBlank
-	@Email
+	@NotBlank(message = "{require_check}")
+	@Email(message = "{email_check}")
 	private String userId;//ユーザーID
 	
 	//長さ4から100桁まで、半角英数字のみ
-	@NotBlank
-	@Length(min=4,max=100)
-	@Pattern(regexp = "^[a-zA-Z0-9]+$")
+	@NotBlank(message = "{require_check}")
+	@Length(min=4,max=100, message = "{length_check}")
+	@Pattern(regexp = "^[a-zA-Z0-9]+$", message = "{pattern_check}")
 	private String password;//パスワード
 	
-	@NotBlank
+	@NotBlank(message = "{require_check}")
 	private String userName;//ユーザー名
 	
-	@NotNull
+	@NotNull(message = "{require_check}")
 	@DateTimeFormat(pattern="yyyy/MM/dd")
 	private Date birthday;//誕生日
 	
 	//値が20から100まで
-	@Min(20)
-	@Max(100)
+	@Min(value=20,message = "{min_check}")
+	@Max(value=100,message = "{max_check}")
 	private int age;//年齢
 	
 	//falseのみ可能
-	@AssertFalse
+	@AssertFalse(message = "{false_check}")
 	private boolean marriage;//結婚ステータス
 	
 	}
