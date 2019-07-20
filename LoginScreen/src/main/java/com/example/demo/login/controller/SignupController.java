@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 
 import com.example.demo.login.controller.domain.model.GroupOrder;
 import com.example.demo.login.controller.domain.model.SignupForm;
+import com.example.demo.login.controller.domain.model.User;
+import com.example.demo.login.controller.domain.service.UserService;
 
 @Controller
 public class SignupController {
@@ -68,7 +70,7 @@ public String postSignUp(@ModelAttribute @Validated SignupForm form,BindingResul
 	user.setUserName(form.getUserName()); // ユーザー名
 	user.setBirthday(form.getBirthday()); // 誕生日
 	user.setAge(form.getAge()); // 年齢
-	user.setmarriage(form.isMarriage()); // 結婚ステータス
+	user.setMarriage(form.isMarriage()); // 結婚ステータス
 	user.setRole("ROLE_GENERAL"); // ロール (一般)	
 	
 	// ユーザー登録処理
