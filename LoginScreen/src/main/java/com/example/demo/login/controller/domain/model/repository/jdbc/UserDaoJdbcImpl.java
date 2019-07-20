@@ -9,50 +9,70 @@ import com.example.demo.login.controller.domain.model.User;
 import com.example.demo.login.controller.domain.model.repository.UserDao;
 
 @Repository
-public class UserDaoJdbcImpl implements UserDao{
-	
+public class UserDaoJdbcImpl implements UserDao {
+
 	@Autowired
 	JdbcTemplate jdbc;
-	
-	//Userテーブルの件数を取得
+
+	// Userテーブルの件数を取得
 	@Override
-	public int count()throws DataAccessException{
+	public int count() throws DataAccessException {
 		return 0;
 	}
-	
-	//Userテーブルにデータを1件insert
+
+	// Userテーブルにデータを1件insert
 	@Override
-	public int insertOne(User user)throws DataAccessException{
-		return 0;
+	public int insertOne(User user) throws DataAccessException {
+		
+		//　insert
+		// 1件登録
+		
+		int rowNumber = jdbc.update("INSERT INTO m_user(user_id,"
+				+ "password,"
+				+ "user_name,"
+				+ "birthday,"
+				+ "age,"
+				+ "marriage,"
+				+ "role)"
+				+ "VALUES(?,?,?,?,?,?,?)"
+				, user.getUserId()
+				, user.getPassword()
+				, user.getUserName()
+				, user.getBirthday()
+				, user.getAge()
+				, user.isMarriage()
+				, user.getRole());
+		
+		return rowNumber;
 	}
-	
-	//Userテーブルのテーブルを1 件取得
+
+	// Userテーブルのテーブルを1 件取得
 	@Override
-	public User selectOne(String userId)throws DataAccessException{
+	public User selectOne(String userId) throws DataAccessException {
 		return null;
 	}
 
-	//Userテーブルの全データを取得
+	// Userテーブルの全データを取得
 	@Override
-	public List<User>selectMany()throws DataAccessException{
+	public List<User> selectMany() throws DataAccessException {
 		return null;
 	}
-	
-	//Userテーブルを1件更新
+
+	// Userテーブルを1件更新
 	@Override
-	public int updateOne(User user)throws DataAccessException{
+	public int updateOne(User user) throws DataAccessException {
 		return 0;
 	}
-	
-	//Userテーブルを1件削除
+
+	// Userテーブルを1件削除
 	@Override
-	public int deleteOne(String userId)throws DataAccessException{
+	public int deleteOne(String userId) throws DataAccessException {
 		return 0;
 	}
-	
-	//Userテーブルの全データをCSVに出力する
+
+	// Userテーブルの全データをCSVに出力する
 	@Override
-	public void userCsvOut()throws DataAccessException{
-		
+	public void userCsvOut() throws DataAccessException {
+
 	}
 }
