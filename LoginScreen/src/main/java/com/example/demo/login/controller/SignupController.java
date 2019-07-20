@@ -3,6 +3,7 @@ package com.example.demo.login.controller;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -17,6 +18,9 @@ import com.example.demo.login.controller.domain.model.SignupForm;
 @Controller
 public class SignupController {
 
+    @Autowired	
+    private UserService userService; 
+    
 	private Map<String,String>radioMarriage;
 	//ラジオボタンの初期化メソッド
 	private Map<String,String>initRadioMarriage() {
@@ -55,6 +59,27 @@ public String postSignUp(@ModelAttribute @Validated SignupForm form,BindingResul
 	}
 	//formの中身をコンソールに出して確認します
 	System.out.println(form);
+	
+	// insert 用の変数
+	User user = new User();
+	
+	user.setUserId(form.getUserId()); // ユーザーID
+	user.setPassword(form.getPassword()); // パスワード
+	user.setUserName(form.getUserName()); // ユーザー名
+	user.setBirthday(form.getBirthday()); // 誕生日
+	user.setAge(form.getAge()); // 年齢
+	user.setmarriage(form.isMarriage()); // 結婚ステータス
+	user.setRole("ROLE_GENERAL"); // ロール (一般)	
+	
+	// ユーザー登録処理
+	boolean result = userService.insert(user);
+	
+	// ユーザー登録結果
+	if(result == true) {
+		System.out.println("insert 成功");
+	}else {
+		System.out.println("insert 失敗");
+	}
 	
 	//login.htmlにリダイレクト
 	return "redirect:/login";
