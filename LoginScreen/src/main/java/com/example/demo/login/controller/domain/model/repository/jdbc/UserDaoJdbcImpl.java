@@ -1,6 +1,10 @@
 package com.example.demo.login.controller.domain.model.repository.jdbc;
 
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -17,7 +21,8 @@ public class UserDaoJdbcImpl implements UserDao {
 	// Userテーブルの件数を取得
 	@Override
 	public int count() throws DataAccessException {
-		return 0;
+		int count = jdbc.queryForObject("SELECT COUNT(*)FROM m_user",Integer.class);
+		return count;
 	}
 
 	// Userテーブルにデータを1件insert
@@ -28,13 +33,13 @@ public class UserDaoJdbcImpl implements UserDao {
 		// 1件登録
 		
 		int rowNumber = jdbc.update("INSERT INTO m_user(user_id,"
-				+ "password,"
-				+ "user_name,"
-				+ "birthday,"
-				+ "age,"
-				+ "marriage,"
-				+ "role)"
-				+ "VALUES(?,?,?,?,?,?,?)"
+				+ " password,"
+				+ " user_name,"
+				+ " birthday,"
+				+ " age,"
+				+ " marriage,"
+				+ " role)"
+				+ " VALUES(?, ?, ?, ?, ?, ?, ?)"
 				, user.getUserId()
 				, user.getPassword()
 				, user.getUserName()
@@ -55,7 +60,33 @@ public class UserDaoJdbcImpl implements UserDao {
 	// Userテーブルの全データを取得
 	@Override
 	public List<User> selectMany() throws DataAccessException {
-		return null;
+		// 複数件のselect
+		// M_USERテーブルのデータを全件取得
+		List<Map<String, Object>>getList = jdbc.queryForList("SELECT * FROM m_user");
+		
+		// 結果返却用の変数
+		List<User>userList = new ArrayList<>();
+		
+		// 取得したデータを結果返却用のListに格納していく
+		for(Map<String, Object>map:getList){
+			
+			// Userインスタンスの生成
+			User user = new User();
+			
+			// Userインスタンスに取得したデータをセットする
+			user.setUserId((String)map.get("user_id"));
+			user.setPassword((String)map.get("password"));
+			user.setUserName((String)map.get("user_name"));
+			user.setBirthday((Date)map.get("birthday"));
+			user.setAge((Integer)map.get("age"));
+			user.setMarriage((Boolean)map.get("marriage"));
+			user.setRole((String)map.get("role"));
+			
+			//結果返却用のListに追加
+			userList.add(user);
+			
+		}
+		return userList;
 	}
 
 	// Userテーブルを1件更新
