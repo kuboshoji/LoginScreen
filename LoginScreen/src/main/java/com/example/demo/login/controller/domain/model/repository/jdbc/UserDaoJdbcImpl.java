@@ -5,6 +5,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
+import org.aspectj.apache.bcel.generic.ReturnaddressType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -54,7 +55,21 @@ public class UserDaoJdbcImpl implements UserDao {
 	// Userテーブルのテーブルを1 件取得
 	@Override
 	public User selectOne(String userId) throws DataAccessException {
-		return null;
+		//1件取得
+		Map<String, Object> map = jdbc.queryForMap("SELECT * FROM m_user" +" WHERE user_id = ?",userId);
+		
+		//結果返却用の変数
+		User user = new User();
+
+		//取得したデータを結果返却用の変数にセットしていく
+		user.setUserId((String)map.get("user_id"));
+		user.setPassword((String)map.get("password"));
+		user.setUserName((String)map.get("user_name"));
+		user.setBirthday((Date)map.get("birthday"));
+		user.setAge((Integer)map.get("age"));
+		user.setMarriage((Boolean)map.get("marriage"));
+		user.setRole((String)map.get("role"));
+		return user;
 	}
 
 	// Userテーブルの全データを取得
@@ -63,15 +78,15 @@ public class UserDaoJdbcImpl implements UserDao {
 		// 複数件のselect
 		// M_USERテーブルのデータを全件取得
 		List<Map<String, Object>>getList = jdbc.queryForList("SELECT * FROM m_user");
-		
+			
 		// 結果返却用の変数
 		List<User>userList = new ArrayList<>();
 		
 		// 取得したデータを結果返却用のListに格納していく
-		for(Map<String, Object>map:getList){
-			
+		for(Map<String, Object>map:getList){ 
+
 			// Userインスタンスの生成
-			User user = new User();
+			User user = new User();  
 			
 			// Userインスタンスに取得したデータをセットする
 			user.setUserId((String)map.get("user_id"));
@@ -82,10 +97,10 @@ public class UserDaoJdbcImpl implements UserDao {
 			user.setMarriage((Boolean)map.get("marriage"));
 			user.setRole((String)map.get("role"));
 			
-			//結果返却用のListに追加
+		  //結果返却用のListに追加
 			userList.add(user);
-			
 		}
+
 		return userList;
 	}
 
