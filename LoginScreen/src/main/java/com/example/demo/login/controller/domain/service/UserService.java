@@ -40,9 +40,24 @@ public class UserService {
 		// 全件取得
 		return dao.selectMany();
 	}
-	// 1件取得用メソッド
+	// 1件取得メソッド
 	public User selectOne(String userId) {
 		//selectOne 実行
 		return dao.selectOne(userId);
+	}
+	//1件更新メソッド
+	public boolean updateOne(User user) {
+		
+		//１件更新
+		int rowNumber = dao.updateOne(user);
+		
+		//判定用変数
+		boolean result = false;
+		if(rowNumber>0) {
+			//update成功
+			result = true;
+		}
+		
+		return result;
 	}
 }
