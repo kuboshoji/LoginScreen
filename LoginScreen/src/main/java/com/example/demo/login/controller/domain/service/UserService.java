@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.omg.CORBA.PUBLIC_MEMBER;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import com.example.demo.login.controller.domain.model.User;
@@ -13,6 +14,7 @@ import com.example.demo.login.controller.domain.model.repository.UserDao;
 public class UserService {
 	
 	@Autowired
+	@Qualifier("UserDaoJdbcImpl3")
 	UserDao dao;
 	
 	// insert 用のメソッド
