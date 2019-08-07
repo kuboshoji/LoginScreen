@@ -1,10 +1,15 @@
 package com.example.demo.login.controller.domain.service;
 
+import java.io.IOException;
+import java.nio.file.FileSystem;
+import java.nio.file.FileSystems;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.List;
 
-import org.omg.CORBA.PUBLIC_MEMBER;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
 
 import com.example.demo.login.controller.domain.model.User;
@@ -75,9 +80,26 @@ public class UserService {
 			if(rowNumber > 0) {
 				//delete成功
 				result = true;
-			
-		}
-		
+		}	
 		return result;
 	}
+		//ユーザー一覧をCSV出力する
+		public void userCsvOut() throws DataAccessException{
+			//CSV 出力
+			dao.userCsvOut();
+		}
+		//サーバーに保存されているファイルを取得して、byte配列に変換する
+		public byte[] getFile(String fileName) throws IOException{
+			
+			//ファイルシステム（デフォルト）の取得
+			FileSystem fs = FileSystems.getDefault();
+			
+			//ファイル取得
+			Path p = fs.getPath(fileName);
+			
+			//ファイルをbyte配列に変換
+			byte[] bytes = Files.readAllBytes(p);
+			
+			return bytes;
+		}
 }

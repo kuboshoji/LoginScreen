@@ -8,7 +8,7 @@ import org.springframework.stereotype.Repository;
 
 import com.example.demo.login.controller.domain.model.User;
 
-@Repository("UserDaojdbcImpl4")
+@Repository("UserDaoJdbcImpl4")
 public class UserDaoJdbcImpl4 extends UserDaoJdbcImpl{
 	
 	@Autowired

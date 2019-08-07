@@ -5,11 +5,11 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
-import org.aspectj.apache.bcel.generic.ReturnaddressType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
+
 import com.example.demo.login.controller.domain.model.User;
 import com.example.demo.login.controller.domain.model.repository.UserDao;
 
@@ -139,6 +139,14 @@ public class UserDaoJdbcImpl implements UserDao {
 	//SQL Userテーブルの全データをCSVに出力する
 	@Override
 	public void userCsvOut() throws DataAccessException {
-
+		
+		//M_USER テーブルのデータを全件取得するSQL
+		String sql = "SELECT * FROM m_user";
+		
+		//ResultSetExtractorの生成
+		UserRowCallbackHandler handler = new UserRowCallbackHandler();
+		
+		//SQL 実行 & CSV出力
+		jdbc.query(sql, handler);
 	}
 }
