@@ -14,7 +14,7 @@ import com.example.demo.login.controller.domain.model.repository.UserDao;
 public class UserService {
 	
 	@Autowired
-	@Qualifier("UserDaoJdbcImpl3")
+	@Qualifier("UserDaoJdbcImpl4")
 	UserDao dao;
 	
 	// insert 用のメソッド
