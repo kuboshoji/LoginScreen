@@ -33,7 +33,7 @@ public class HomeController {
 	 //既婚、未婚をMapに格納
 	 radio.put("既婚","true");
 	 radio.put("未婚","false");
-	 
+
 	 return radio;
  }
  
