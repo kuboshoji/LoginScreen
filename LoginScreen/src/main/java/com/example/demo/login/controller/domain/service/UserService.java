@@ -7,22 +7,33 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.List;
 
+import org.aspectj.weaver.tools.DefaultTrace;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.dao.DataAccessException;
+import org.springframework.objenesis.strategy.PlatformDescription;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.PlatformTransactionManager;
+import org.springframework.transaction.TransactionDefinition;
+import org.springframework.transaction.TransactionStatus;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.transaction.support.DefaultTransactionDefinition;
 
 import com.example.demo.login.controller.domain.model.User;
 import com.example.demo.login.controller.domain.model.repository.UserDao;
+import com.fasterxml.jackson.databind.ser.std.StdKeySerializers.Default;
 
 @Transactional
 @Service
 public class UserService {
 	
 	@Autowired
+	
 	@Qualifier("UserDaoJdbcImpl")
 	UserDao dao;
+	
+	@Autowired
+	PlatformTransactionManager txManager;
 	
 	// insert 用のメソッド
 	public boolean insert(User user) {
@@ -56,17 +67,40 @@ public class UserService {
 		return dao.selectOne(userId);
 	}
 	//1件更新メソッド
-	public boolean updateOne(User user) {
+	public boolean updateOne(User user)  throws DataAccessException{
 		
-		//１件更新
-		int rowNumber = dao.updateOne(user);
+		//インスタンス生成
+		DefaultTransactionDefinition def = new DefaultTransactionDefinition();
+		
+		//設定
+		def.setName("UpdateUser");
+		def.setReadOnly(false);
+		def.setPropagationBehavior(TransactionDefinition.PROPAGATION_REQUIRED);
+		
+		//トランザクション開始
+		TransactionStatus status = txManager.getTransaction(def);
 		
 		//判定用変数
 		boolean result = false;
+		
+		try {
+	
+		//１件更新
+		int rowNumber = dao.updateOne(user);
+		
+
 		if(rowNumber>0) {
 			//update成功
 			result = true;
 		}
+	} catch (Exception e) {
+		
+		//ロールバック
+		txManager.rollback(status);
+		throw new DataAccessException("ERROR Update",e) {};
+	}
+		//コミット
+		txManager.commit(status);
 		return result;
 		}
 		
