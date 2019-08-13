@@ -101,6 +101,7 @@ public class UserService {
 	}
 		//コミット
 		txManager.commit(status);
+		
 		return result;
 		}
 		
