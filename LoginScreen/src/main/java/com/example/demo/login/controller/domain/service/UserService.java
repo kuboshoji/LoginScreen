@@ -7,29 +7,26 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.List;
 
-import org.aspectj.weaver.tools.DefaultTrace;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.dao.DataAccessException;
-import org.springframework.objenesis.strategy.PlatformDescription;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.TransactionDefinition;
 import org.springframework.transaction.TransactionStatus;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.support.DefaultTransactionDefinition;
 
 import com.example.demo.login.controller.domain.model.User;
 import com.example.demo.login.controller.domain.model.repository.UserDao;
-import com.fasterxml.jackson.databind.ser.std.StdKeySerializers.Default;
 
-@Transactional
+
 @Service
 public class UserService {
 	
 	@Autowired
 	
 	@Qualifier("UserDaoJdbcImpl")
+	
 	UserDao dao;
 	
 	@Autowired
@@ -67,6 +64,7 @@ public class UserService {
 		return dao.selectOne(userId);
 	}
 	//1件更新メソッド
+	@SuppressWarnings("serial")
 	public boolean updateOne(User user)  throws DataAccessException{
 		
 		//インスタンス生成

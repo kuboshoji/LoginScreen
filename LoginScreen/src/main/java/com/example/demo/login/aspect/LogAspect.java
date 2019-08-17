@@ -1,12 +1,8 @@
 package com.example.demo.login.aspect;
 
-import org.aopalliance.intercept.Joinpoint;
-import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
-import org.aspectj.lang.annotation.After;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
-import org.aspectj.lang.annotation.Before;
 import org.springframework.stereotype.Component;
 
 @Aspect
@@ -14,7 +10,7 @@ import org.springframework.stereotype.Component;
 public class LogAspect {
 	
 	
-	@Around("execution(* *..*.*Controller(..))")
+	@Around("@within(org.springframework.stereotype.Controller)")
 	public Object startLog(ProceedingJoinPoint jp)  throws Throwable{
 		System.out.println("メソッド開始 ： "+jp.getSignature());
 		
