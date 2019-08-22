@@ -8,6 +8,7 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Repository;
 
 import com.example.demo.login.controller.domain.model.User;
@@ -18,6 +19,9 @@ public class UserDaoJdbcImpl implements UserDao {
 
 	@Autowired
 	JdbcTemplate jdbc;
+	
+	@Autowired
+	PasswordEncoder passwordEncoder;
 
 	// Userテーブルの件数を取得
 	@Override
@@ -30,24 +34,28 @@ public class UserDaoJdbcImpl implements UserDao {
 	@Override
 	public int insertOne(User user) throws DataAccessException {
 		
-		//　insert
-		// 1件登録
+		//パスワード暗号化
+		String password = passwordEncoder.encode(user.getPassword());
 		
-		int rowNumber = jdbc.update("INSERT INTO m_user(user_id,"
+		// ユーザーテーブルに1件登録するSQL
+		String sql ="INSERT INTO m_user("
+				+" user_id,"
 				+ " password,"
 				+ " user_name,"
 				+ " birthday,"
 				+ " age,"
 				+ " marriage,"
 				+ " role)"
-				+ " VALUES(?, ?, ?, ?, ?, ?, ?)"
-				, user.getUserId()
-				, user.getPassword()
-				, user.getUserName()
-				, user.getBirthday()
-				, user.getAge()
-				, user.isMarriage()
-				, user.getRole());
+				+ " VALUES(?, ?, ?, ?, ?, ?, ?)";
+				
+		int rowNumber = jdbc.update(sql,
+				user.getUserId(),
+				password,
+				user.getUserName(),
+				user.getBirthday(),
+				user.getAge(),
+				user.isMarriage(),
+				user.getRole());
 		
 		return rowNumber;
 	}
@@ -108,21 +116,26 @@ public class UserDaoJdbcImpl implements UserDao {
 	@Override
 	public int updateOne(User user) throws DataAccessException {
 		
-		//1件更新
-		int rowNumber = jdbc.update("UPDATE M_USER"
-				+ "SET"
+		//パスワード暗号化
+		String password = passwordEncoder.encode(user.getPassword());
+		
+		//1件更新するSQL
+		String sql = "UPDATE m_user SET"		
 				+ "password = ?,"
 				+ "user_name = ?,"
 				+ "birthday = ?,"
 				+ "age = ?,"
 				+ "marriage = ?"
-				+ "WHERE user_id = ?"
-				, user.getPassword()
-				, user.getUserName()
-				, user.getBirthday()
-				, user.getAge()
-				, user.isMarriage()
-				, user.getUserId());
+				+ "WHERE"
+				+ "user_id = ?";
+
+		int rowNumber = jdbc.update(sql,
+				password,
+				user.getUserName(),
+				user.getBirthday(),
+				user.getAge(),
+				user.isMarriage(),
+				user.getUserId());
 		
 //		//　トランザクション確認のため、わざと例外をthrowする
 //		if(rowNumber > 0) {
