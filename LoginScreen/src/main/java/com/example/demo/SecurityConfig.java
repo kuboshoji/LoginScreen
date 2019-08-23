@@ -5,6 +5,7 @@ import java.net.PasswordAuthentication;
 
 import javax.sql.DataSource;
 
+import org.aspectj.weaver.NewConstructorTypeMunger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -15,6 +16,8 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
+import org.springframework.security.web.util.matcher.RequestMatcher;
 import org.springframework.util.AntPathMatcher;
 
 
@@ -85,11 +88,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 		//ログアウト処理
 		http
 		 .logout()
-		 		.logoutRequestMatcher(new AntPathMatcher("/logout"))
+		 		.logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
 		 		.logoutUrl("/logout")
 		 		.logoutSuccessUrl("/login");
 
-		//CSRF対策を無効に設定（一時的）
+		//CSRF対策を無効に設定（一時的）^
 		http.csrf().disable();
 	}
 	
@@ -101,7 +104,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 		auth.jdbcAuthentication()
 		.dataSource(dataSource)
 		.usersByUsernameQuery(USER_SQL)
-		.authoritiesByUsernameQuery(ROLE_SQL);
+		.authoritiesByUsernameQuery(ROLE_SQL)
 		.passwordEncoder(passwordEncoder());
 	}
 }
