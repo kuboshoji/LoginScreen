@@ -1,11 +1,8 @@
 package com.example.demo;
 
 
-import java.net.PasswordAuthentication;
-
 import javax.sql.DataSource;
 
-import org.aspectj.weaver.NewConstructorTypeMunger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -18,7 +15,6 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.security.web.util.matcher.RequestMatcher;
-import org.springframework.util.AntPathMatcher;
 
 
 @Configuration
@@ -73,6 +69,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 		.antMatchers("/css/**").permitAll()//cssへアクセス許可
 		.antMatchers("/login").permitAll()//ログインページは直リンクOK
 		.antMatchers("/signup").permitAll()//ユーザー登録画面は直リンクOK
+		.antMatchers("/rest/ ** ").permitAll()
+		.antMatchers("/admin").hasAuthority("ROLE_ADMIN")
 		.anyRequest().authenticated();//それ以外は直リンク禁止
 		
 		http.
@@ -92,8 +90,15 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 		 		.logoutUrl("/logout")
 		 		.logoutSuccessUrl("/login");
 
-		//CSRF対策を無効に設定（一時的）^
-		http.csrf().disable();
+		//CSRF対策を無効に設定（一時的）
+        //http.csrf().disable();
+		
+		//CSRFを無効にするURLを設定
+		RequestMatcher csrfMatcher = new RestMatcher("/rest/ ** ");
+		
+		//RESTのみCSRF対策を無効に設定
+		http.csrf().requireCsrfProtectionMatcher(csrfMatcher);
+		
 	}
 	
 	@Override

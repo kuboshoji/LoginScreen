@@ -16,7 +16,7 @@
  </div>
  
  <!-- ポイント１：登録画面 -->
- <form method="post" action="/signup" th:object="${signupForm}">
+ <form method="post" th:action="@{'/signup'}" th:object="${signupForm}">
   <table class="table table-bordered table-hover">
   
   <!-- ユーザーIDの入力エリア -->

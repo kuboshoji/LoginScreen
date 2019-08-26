@@ -83,11 +83,9 @@ public String getSignUp(@ModelAttribute SignupForm form,Model model){
 //ポイント2：データバインド結果の受け取り
 @PostMapping("/signup")
 public String postSignUp(@ModelAttribute @Validated SignupForm form,BindingResult bindingResult, Model model) {
-	
-	//ポイント3：データバインド失敗の場合
+		//ポイント3：データバインド失敗の場合
 	//入力チェックに引っかかった場合、ユーザー登録画面に戻る
 	if(bindingResult.hasErrors()) {
-		
 	
 	return getSignUp(form,model);
 	
