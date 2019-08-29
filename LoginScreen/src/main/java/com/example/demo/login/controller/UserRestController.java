@@ -73,8 +73,8 @@ public class UserRestController {
 		
 		
 		//ユーザーを1件削除
-		boolean result = userService.deleteOne(userId);
-		
+		boolean result = service.delete(userId);
+		//　userServiceを定義
 		String str = "";
 		
 		if(result == true) {
